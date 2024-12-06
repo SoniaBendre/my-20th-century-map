@@ -31,7 +31,6 @@ const locations = [
     name: "Budapest, Hungary",
     coordinates: [19.0402, 47.4979],      // Budapest city center
     info: "The heart of the film's narrative, Budapest hosts many key events that mirror the broader themes of modernity, duality, and transformation.",
-    year: "1880-1900",
     imageUrl: "/images/budapest-1880.jpg",
     additionalInfo: {
       historicalContext: "Budapest was known as the 'Paris of the East', rapidly modernizing at the turn of the century.",
@@ -63,7 +62,6 @@ const locations = [
     name: "Vienna, Austria",
     coordinates: [16.3738, 48.2082],      // Central Vienna
     info: "Vienna serves as a crucial location for both technological spectacle and revolutionary politics.",
-    year: "1900",
     imageUrl: "/images/vienna-animals.jpg",
     additionalInfo: {
       historicalContext: "Vienna was the cultural and political center of the Austro-Hungarian Empire.",
@@ -90,7 +88,6 @@ const locations = [
     name: "Paris, France",
     coordinates: [2.3522, 48.8566],       // Central Paris
     info: "Paris represents both scientific advancement and artistic innovation.",
-    year: "1890-1895",
     imageUrl: "/images/paris-1900.jpg",
     additionalInfo: {
       historicalContext: "Paris was the cultural capital of Europe and a center of technological innovation.",
@@ -112,7 +109,6 @@ const locations = [
     name: "Menlo Park, New Jersey, USA",
     coordinates: [-74.2332, 40.7831],      // Edison's Laboratory
     info: "The film opens with Edison's lightbulb demonstration, where incandescent bulbs festoon trees like glowworms in an enchanted wood. A glum Thomas Edison launches his invention with great fanfare, including a marching band wearing lit bulbs on their heads.",
-    year: "1880",
     imageUrl: "/images/edison-lab.jpg",
     additionalInfo: {
       historicalContext: "Edison's Menlo Park laboratory was known as the 'invention factory'.",
@@ -129,7 +125,6 @@ const locations = [
     name: "Hamburg, Germany",
     coordinates: [10.0, 53.45],            // Hamburg port area
     info: "Dóra emerges as a sophisticated courtesan in Hamburg's high society, manipulating wealthy men using modern luxuries like telegram offices and grand hotels.",
-    year: "1900",
     imageUrl: "/images/hamburg-1900.jpg",
     additionalInfo: {
       historicalContext: "Hamburg was one of Europe's wealthiest port cities.",
@@ -146,7 +141,6 @@ const locations = [
     name: "Mandalay, Burma (Myanmar)",
     coordinates: [96.1951, 21.9588],       // Historical Burma
     info: "Z's journey takes him to Burma, where Western scientific exploration meets Eastern mysticism.",
-    year: "1900",
     imageUrl: "/images/burma-scene.jpg",
     additionalInfo: {
       historicalContext: "Burma represented the exotic East to Western explorers.",
@@ -163,7 +157,6 @@ const locations = [
     name: "New York City, USA",
     coordinates: [-74.0060, 40.7128],      // Manhattan
     info: "Site of a captivating Edison Light Show that demonstrates the theatrical nature of scientific progress.",
-    year: "1895",
     imageUrl: "/images/ny-edison.jpg",
     additionalInfo: {
       historicalContext: "New York was becoming the center of American technological innovation.",
@@ -180,7 +173,6 @@ const locations = [
     name: "Királyhida Border Station",
     coordinates: [16.8719, 47.8388],       // Austria-Hungary border
     info: "The Orient Express stops here on New Year's Eve 1900, straddling what would later become a significant east-west divide.",
-    year: "1900",
     imageUrl: "/images/train-scene.jpg",
     additionalInfo: {
       historicalContext: "The border town symbolized the meeting point of Eastern and Western Europe.",
@@ -197,7 +189,6 @@ const locations = [
     name: "Constantinople (Istanbul), Ottoman Empire",
     coordinates: [28.9784, 41.0082],       // Historical Constantinople
     info: "The final destination of the Orient Express represents the ultimate meeting point of East and West.",
-    year: "1900",
     imageUrl: "/images/constantinople.jpg",
     additionalInfo: {
       historicalContext: "Constantinople was the gateway between Europe and Asia.",
@@ -418,7 +409,7 @@ export default function My20thCenturyMap() {
         <DialogContent className="bg-[#f4e9d9] border-[#2c1810] max-w-2xl">
           <DialogHeader>
             <DialogTitle className="font-serif text-2xl text-[#2c1810]">
-              {selectedLocation?.name} ({selectedLocation?.year})
+              {selectedLocation?.name}
             </DialogTitle>
             <div className="relative w-full h-48 mb-4">
               {selectedLocation?.imageUrl && (
