@@ -217,11 +217,22 @@ const historicalOverlay = {
   opacity: 0.15
 }
 
+// Add initial values as constants at the top of the component
+const INITIAL_ZOOM = 1;
+const INITIAL_CENTER: [number, number] = [20, 30];
+
 export default function My20thCenturyMap() {
   const [selectedLocation, setSelectedLocation] = useState<(typeof locations)[0] | null>(null)
-  const [zoom, setZoom] = useState(1) // Start with zoom at 1
-  const [position, setPosition] = useState<[number, number]>([20, 30])
-  const [center, setCenter] = useState<[number, number]>([20, 30])
+  const [zoom, setZoom] = useState(INITIAL_ZOOM)
+  const [position, setPosition] = useState<[number, number]>(INITIAL_CENTER)
+  const [center, setCenter] = useState<[number, number]>(INITIAL_CENTER)
+
+  // Add reset handler
+  const handleReset = () => {
+    setZoom(INITIAL_ZOOM);
+    setPosition(INITIAL_CENTER);
+    setCenter(INITIAL_CENTER);
+  };
 
   // Improved zoom handlers
   const handleZoomIn = () => {
@@ -254,22 +265,29 @@ export default function My20thCenturyMap() {
   return (
     <div className="w-full h-screen bg-[#f4e9d9] p-4">
       <h1 className="text-3xl font-serif mb-4 text-center text-[#2c1810]">My 20th Century: A Tale of Twin Destinies</h1>
-      
-      {/* Add zoom controls */}
+
+      {/* Update zoom controls to include reset */}
       <div className="absolute top-20 right-8 z-20 flex flex-col gap-2">
-        <Button 
+        <Button
           onClick={handleZoomIn}
           className="bg-[#2c1810] hover:bg-[#4c2820] w-10 h-10 rounded-full"
           aria-label="Zoom in"
         >
           +
         </Button>
-        <Button 
+        <Button
           onClick={handleZoomOut}
           className="bg-[#2c1810] hover:bg-[#4c2820] w-10 h-10 rounded-full"
           aria-label="Zoom out"
         >
           -
+        </Button>
+        <Button
+          onClick={handleReset}
+          className="bg-[#2c1810] hover:bg-[#4c2820] w-10 h-10 rounded-full"
+          aria-label="Reset view"
+        >
+          ↺
         </Button>
       </div>
 
