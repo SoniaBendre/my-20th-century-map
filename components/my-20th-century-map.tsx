@@ -11,6 +11,7 @@ import {
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { geoCentroid } from "d3-geo"
+import Image from 'next/image'
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json"
 
@@ -254,24 +255,35 @@ export default function My20thCenturyMap() {
               coordinates={location.coordinates as [number, number]}
               onClick={() => handleLocationClick(location)}
             >
-              <circle
-                r={5}
-                fill="#2c1810"
-                stroke="#f4e9d9"
-                strokeWidth={2}
-                style={{ cursor: 'pointer' }}
-              />
-              <text
-                textAnchor="middle"
-                y={-10}
-                style={{
-                  fontFamily: 'serif',
-                  fontSize: '8px',
-                  fill: '#2c1810',
-                }}
-              >
-                {location.year}
-              </text>
+              <g>
+                {/* Larger transparent circle for better hover area */}
+                <circle
+                  r={8}
+                  fill="transparent"
+                  style={{ cursor: 'pointer' }}
+                />
+                {/* Animated dot */}
+                <circle
+                  r={5}
+                  fill="#2c1810"
+                  stroke="#f4e9d9"
+                  strokeWidth={2}
+                  style={{
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease-in-out',
+                  }}
+                  onMouseEnter={(e) => {
+                    const target = e.target as SVGCircleElement;
+                    target.style.r = '7';
+                    target.style.fill = '#4c2820';
+                  }}
+                  onMouseLeave={(e) => {
+                    const target = e.target as SVGCircleElement;
+                    target.style.r = '5';
+                    target.style.fill = '#2c1810';
+                  }}
+                />
+              </g>
             </Marker>
           ))}
         </ComposableMap>
@@ -280,13 +292,19 @@ export default function My20thCenturyMap() {
       <Dialog open={!!selectedLocation} onOpenChange={() => setSelectedLocation(null)}>
         <DialogContent className="bg-[#f4e9d9] border-[#2c1810] max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="font-serif text-2xl text-[#2c1810]">{selectedLocation?.name}</DialogTitle>
+            <DialogTitle className="font-serif text-2xl text-[#2c1810]">
+              {selectedLocation?.name.split(',')[0]} ({selectedLocation?.year})
+            </DialogTitle>
             <div className="relative w-full h-48 mb-4">
-              <img
-                src={selectedLocation?.imageUrl}
-                alt={selectedLocation?.name}
-                className="object-cover w-full h-full rounded-md"
-              />
+              {selectedLocation?.imageUrl && (
+                <Image
+                  src={selectedLocation.imageUrl}
+                  alt={selectedLocation.name}
+                  fill
+                  className="object-cover rounded-md"
+                  priority
+                />
+              )}
             </div>
             <DialogDescription className="text-[#2c1810] space-y-4">
               <p className="text-lg">{selectedLocation?.info}</p>
