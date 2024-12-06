@@ -217,24 +217,19 @@ const historicalOverlay = {
   opacity: 0.15
 }
 
-const mapProjection = {
-  center: [20, 30] as [number, number], // Centered more on Europe/Asia minor
-  scale: 220, // Increased scale to zoom in more
-  rotation: [0, 0, 0] as [number, number, number]
-}
-
 export default function My20thCenturyMap() {
   const [selectedLocation, setSelectedLocation] = useState<(typeof locations)[0] | null>(null)
-  const [zoom, setZoom] = useState(220) // Initial scale value
-  const [position, setPosition] = useState<[number, number]>([20, 30]) // Initial center position
+  const [zoom, setZoom] = useState(1) // Start with zoom at 1
+  const [position, setPosition] = useState<[number, number]>([20, 30])
+  const [center, setCenter] = useState<[number, number]>([20, 30])
 
-  // Add zoom handlers
+  // Improved zoom handlers
   const handleZoomIn = () => {
-    setZoom(prev => Math.min(prev * 1.5, 1000)) // Max zoom limit
+    setZoom(prev => Math.min(prev * 1.5, 4)) // Max zoom of 4x
   }
 
   const handleZoomOut = () => {
-    setZoom(prev => Math.max(prev / 1.5, 100)) // Min zoom limit
+    setZoom(prev => Math.max(prev / 1.5, 0.5)) // Min zoom of 0.5x
   }
 
   const handleLocationClick = (location: typeof locations[0]) => {
@@ -245,9 +240,10 @@ export default function My20thCenturyMap() {
     return true;
   };
 
-  // Add handlers for dragging
+  // Improved move handler
   const handleMoveEnd = useCallback((position: { coordinates: [number, number]; zoom: number }) => {
     setPosition(position.coordinates)
+    setCenter(position.coordinates)
   }, [])
 
   return (
@@ -286,15 +282,19 @@ export default function My20thCenturyMap() {
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{
-            scale: zoom
+            scale: 220 // Base scale
           }}
         >
           <ZoomableGroup
-            center={position}
+            center={center}
+            zoom={zoom}
             onMoveEnd={handleMoveEnd}
-            zoom={1}
-            maxZoom={1}
-            minZoom={1}
+            maxZoom={4}
+            minZoom={0.5}
+            translateExtent={[
+              [-200, -200], // Min boundaries
+              [1000, 600]   // Max boundaries
+            ]}
           >
             <Geographies geography={geoUrl}>
               {({ geographies, projection }) =>
