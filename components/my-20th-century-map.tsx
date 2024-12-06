@@ -255,155 +255,214 @@ export default function My20thCenturyMap() {
   };
 
   return (
-    <div className="w-full h-screen bg-[#f4e9d9] p-4">
-      <h1 className="text-3xl font-serif mb-4 text-center text-[#2c1810]">My 20th Century: A Tale of Twin Destinies</h1>
+    <div className="w-full min-h-screen bg-[#f4e9d9]">
+      <div className="max-w-7xl mx-auto p-4 md:p-8">
+        <h1 className="text-3xl font-serif mb-4 text-center text-[#2c1810]">My 20th Century: A Tale of Twin Destinies</h1>
 
-      {/* Update zoom controls to include reset */}
-      <div className="absolute top-20 right-8 z-20 flex flex-col gap-2">
-        <Button
-          onClick={handleZoomIn}
-          className="bg-[#2c1810] hover:bg-[#4c2820] w-10 h-10 rounded-full"
-          aria-label="Zoom in"
-        >
-          +
-        </Button>
-        <Button
-          onClick={handleZoomOut}
-          className="bg-[#2c1810] hover:bg-[#4c2820] w-10 h-10 rounded-full"
-          aria-label="Zoom out"
-        >
-          -
-        </Button>
-        <Button
-          onClick={handleReset}
-          className="bg-[#2c1810] hover:bg-[#4c2820] w-10 h-10 rounded-full"
-          aria-label="Reset view"
-        >
-          ↺
-        </Button>
-      </div>
-
-      <div className="w-full aspect-[2/1] border-4 border-[#2c1810] rounded-lg overflow-hidden bg-[#e8d5b5] relative">
-        <div className="absolute inset-0 z-10 pointer-events-none">
-          <Image
-            src={historicalOverlay.imageUrl}
-            alt="Historical map overlay"
-            fill
-            className="object-cover mix-blend-multiply opacity-15"
-            priority
-          />
+        <div className="mb-8 prose prose-lg mx-auto text-[#2c1810]">
+          <p className="text-center max-w-3xl mx-auto">
+            Explore the magical world of Ildikó Enyedi's 1989 masterpiece "My 20th Century" through this interactive map. 
+            This enchanting film follows twin sisters separated at birth in Budapest, as they navigate the dawn of the 20th century 
+            on divergent paths across Europe and beyond.
+          </p>
         </div>
 
-        <ComposableMap
-          projection="geoMercator"
-          projectionConfig={{
-            scale: 220 // Base scale
-          }}
-        >
-          <ZoomableGroup
-            center={center}
-            zoom={zoom}
-            onMoveEnd={handleMoveEnd}
-            maxZoom={4}
-            minZoom={0.5}
-            translateExtent={[
-              [-200, -200], // Min boundaries
-              [1000, 600]   // Max boundaries
-            ]}
+        <div className="absolute top-20 right-8 z-20 flex flex-col gap-2">
+          <Button
+            onClick={handleZoomIn}
+            className="bg-[#2c1810] hover:bg-[#4c2820] w-10 h-10 rounded-full"
+            aria-label="Zoom in"
           >
-            <Geographies geography={geoUrl}>
-              {({ geographies, projection }) =>
-                geographies.map((geo) => {
-                  const centroid = geoCentroid(geo);
-                  const projectedCentroid = projection(centroid);
+            +
+          </Button>
+          <Button
+            onClick={handleZoomOut}
+            className="bg-[#2c1810] hover:bg-[#4c2820] w-10 h-10 rounded-full"
+            aria-label="Zoom out"
+          >
+            -
+          </Button>
+          <Button
+            onClick={handleReset}
+            className="bg-[#2c1810] hover:bg-[#4c2820] w-10 h-10 rounded-full"
+            aria-label="Reset view"
+          >
+            ↺
+          </Button>
+        </div>
 
-                  return (
-                    <React.Fragment key={geo.rsmKey}>
-                      <Geography
-                        geography={geo}
-                        fill="#d5c3a1"
-                        stroke="#2c1810"
-                        strokeWidth={0.5}
-                        style={{
-                          default: {
-                            outline: "none",
-                          },
-                          hover: {
-                            fill: "#d5c3a1",
-                            outline: "none",
-                          },
-                          pressed: {
-                            outline: "none",
-                          },
-                        }}
-                      />
-                      {isLabelVisible() && projectedCentroid && (
-                        <text
-                          x={projectedCentroid[0]}
-                          y={projectedCentroid[1]}
-                          textAnchor="middle"
-                          style={{
-                            fontFamily: 'serif',
-                            fontSize: '4px',
-                            fill: '#2c1810',
-                            pointerEvents: 'none',
-                          }}
-                        >
-                          {geo.properties.name}
-                        </text>
-                      )}
-                    </React.Fragment>
-                  );
-                })
-              }
-            </Geographies>
-
-            <Line
-              coordinates={orientExpressRoute}
-              stroke="#2c1810"
-              strokeWidth={2}
-              strokeDasharray="5,5"
+        <div className="w-full aspect-[2/1] border-4 border-[#2c1810] rounded-lg overflow-hidden bg-[#e8d5b5] relative">
+          <div className="absolute inset-0 z-10 pointer-events-none">
+            <Image
+              src={historicalOverlay.imageUrl}
+              alt="Historical map overlay"
+              fill
+              className="object-cover mix-blend-multiply opacity-15"
+              priority
             />
+          </div>
 
-            {locations.map((location) => (
-              <Marker
-                key={location.name}
-                coordinates={location.coordinates as [number, number]}
-                onClick={() => handleLocationClick(location)}
-              >
-                <g transform={`scale(${getMarkerScale(zoom)})`}>
-                  {/* Larger transparent circle for better hover area */}
-                  <circle
-                    r={8}
-                    fill="transparent"
-                    style={{ cursor: 'pointer' }}
-                  />
-                  {/* Animated dot */}
-                  <circle
-                    r={5}
-                    fill="#2c1810"
-                    stroke="#f4e9d9"
-                    strokeWidth={2}
-                    style={{
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease-in-out',
-                    }}
-                    onMouseEnter={(e) => {
-                      const target = e.target as SVGCircleElement;
-                      target.style.r = '7';
-                      target.style.fill = '#4c2820';
-                    }}
-                    onMouseLeave={(e) => {
-                      const target = e.target as SVGCircleElement;
-                      target.style.r = '5';
-                      target.style.fill = '#2c1810';
-                    }}
-                  />
-                </g>
-              </Marker>
-            ))}
-          </ZoomableGroup>
-        </ComposableMap>
+          <ComposableMap
+            projection="geoMercator"
+            projectionConfig={{
+              scale: 220 // Base scale
+            }}
+          >
+            <ZoomableGroup
+              center={center}
+              zoom={zoom}
+              onMoveEnd={handleMoveEnd}
+              maxZoom={4}
+              minZoom={0.5}
+              translateExtent={[
+                [-200, -200], // Min boundaries
+                [1000, 600]   // Max boundaries
+              ]}
+            >
+              <Geographies geography={geoUrl}>
+                {({ geographies, projection }) =>
+                  geographies.map((geo) => {
+                    const centroid = geoCentroid(geo);
+                    const projectedCentroid = projection(centroid);
+
+                    return (
+                      <React.Fragment key={geo.rsmKey}>
+                        <Geography
+                          geography={geo}
+                          fill="#d5c3a1"
+                          stroke="#2c1810"
+                          strokeWidth={0.5}
+                          style={{
+                            default: {
+                              outline: "none",
+                            },
+                            hover: {
+                              fill: "#d5c3a1",
+                              outline: "none",
+                            },
+                            pressed: {
+                              outline: "none",
+                            },
+                          }}
+                        />
+                        {isLabelVisible() && projectedCentroid && (
+                          <text
+                            x={projectedCentroid[0]}
+                            y={projectedCentroid[1]}
+                            textAnchor="middle"
+                            style={{
+                              fontFamily: 'serif',
+                              fontSize: '4px',
+                              fill: '#2c1810',
+                              pointerEvents: 'none',
+                            }}
+                          >
+                            {geo.properties.name}
+                          </text>
+                        )}
+                      </React.Fragment>
+                    );
+                  })
+                }
+              </Geographies>
+
+              <Line
+                coordinates={orientExpressRoute}
+                stroke="#2c1810"
+                strokeWidth={2}
+                strokeDasharray="5,5"
+              />
+
+              {locations.map((location) => (
+                <Marker
+                  key={location.name}
+                  coordinates={location.coordinates as [number, number]}
+                  onClick={() => handleLocationClick(location)}
+                >
+                  <g transform={`scale(${getMarkerScale(zoom)})`}>
+                    {/* Larger transparent circle for better hover area */}
+                    <circle
+                      r={8}
+                      fill="transparent"
+                      style={{ cursor: 'pointer' }}
+                    />
+                    {/* Animated dot */}
+                    <circle
+                      r={5}
+                      fill="#2c1810"
+                      stroke="#f4e9d9"
+                      strokeWidth={2}
+                      style={{
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease-in-out',
+                      }}
+                      onMouseEnter={(e) => {
+                        const target = e.target as SVGCircleElement;
+                        target.style.r = '7';
+                        target.style.fill = '#4c2820';
+                      }}
+                      onMouseLeave={(e) => {
+                        const target = e.target as SVGCircleElement;
+                        target.style.r = '5';
+                        target.style.fill = '#2c1810';
+                      }}
+                    />
+                  </g>
+                </Marker>
+              ))}
+            </ZoomableGroup>
+          </ComposableMap>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-6 my-12">
+          <div className="md:w-1/2 p-6 border-2 border-[#2c1810] rounded-lg bg-[#e8d5b5]">
+            <h2 className="text-2xl font-serif text-center text-[#2c1810] mb-4">About the Film</h2>
+            <div className="space-y-4 text-[#2c1810]">
+              <p>
+                &ldquo;My 20th Century&rdquo; (Az én XX. századom) is a luminous celebration of electricity, technology, 
+                and the spirit of innovation that characterized the turn of the century. Through the story of 
+                twin sisters Dóra and Lili, separated as young girls in Budapest, the film weaves together 
+                themes of duality, progress, and the wonder of scientific discovery.
+              </p>
+              <p>
+                Winner of the Caméra d&apos;Or at the 1989 Cannes Film Festival, the film follows Dóra, who becomes 
+                a swindler traveling first-class, and Lili, who becomes an anarchist and feminist. Their paths 
+                cross unknowingly aboard the Orient Express on New Year&apos;s Eve, 1900, while a third character, Z, 
+                encounters both women without realizing they are twins.
+              </p>
+            </div>
+          </div>
+
+          <div className="md:w-1/2 p-6 border-2 border-[#2c1810] rounded-lg bg-[#e8d5b5]">
+            <h2 className="text-2xl font-serif text-center text-[#2c1810] mb-6">Key Locations</h2>
+            <p className="text-center mb-6 text-[#2c1810]">
+              Click on any location below or on the map markers to explore the significant moments 
+              and events that unfold across these historic sites.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {locations.map((location) => (
+                <button
+                  key={location.name}
+                  onClick={() => handleLocationClick(location)}
+                  className="text-left p-2 hover:bg-[#d5c3a1] rounded transition-colors"
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-[#2c1810]" />
+                    <span className="font-serif text-sm text-[#2c1810]">
+                      {location.name}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+            <div className="mt-6 flex items-center justify-center gap-4 text-sm text-[#2c1810]">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-[2px] bg-[#2c1810] dash-line" />
+                <span className="font-serif">Orient Express Route</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <Dialog open={!!selectedLocation} onOpenChange={() => setSelectedLocation(null)}>
@@ -459,30 +518,12 @@ export default function My20thCenturyMap() {
         </DialogContent>
       </Dialog>
 
-      <div className="mt-6 p-4 border-2 border-[#2c1810] rounded-lg bg-[#e8d5b5] max-w-4xl mx-auto">
-        <h2 className="text-xl font-serif text-center text-[#2c1810] mb-4">Locations Mapped</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {locations.map((location) => (
-            <button
-              key={location.name}
-              onClick={() => handleLocationClick(location)}
-              className="text-left p-2 hover:bg-[#d5c3a1] rounded transition-colors"
-            >
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[#2c1810]" />
-                <span className="font-serif text-sm text-[#2c1810]">
-                  {location.name}
-                </span>
-              </div>
-            </button>
-          ))}
-        </div>
-        <div className="mt-4 flex items-center justify-center gap-4 text-sm text-[#2c1810]">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-[2px] bg-[#2c1810] dash-line" />
-            <span className="font-serif">Orient Express Route</span>
-          </div>
-        </div>
+      <div className="text-center py-8 border-t border-[#2c1810]/20 mt-8">
+        <p className="font-serif text-[#2c1810] italic">
+          Created by Sonia Bendre
+          <span className="mx-2">•</span>
+          <span className="font-normal">AIT Budapest - Budapest Through Cinema, People and Streets</span>
+        </p>
       </div>
 
       <style jsx>{`
