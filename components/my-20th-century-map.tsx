@@ -172,6 +172,11 @@ const locations = [
   }
 ]
 
+const historicalOverlay = {
+  imageUrl: "/images/my-20th-cent-poster.jpg",
+  opacity: 0.15
+}
+
 export default function My20thCenturyMap() {
   const [selectedLocation, setSelectedLocation] = useState<(typeof locations)[0] | null>(null)
 
@@ -182,7 +187,17 @@ export default function My20thCenturyMap() {
   return (
     <div className="w-full h-screen bg-[#f4e9d9] p-4">
       <h1 className="text-3xl font-serif mb-4 text-center text-[#2c1810]">My 20th Century: A Tale of Twin Destinies</h1>
-      <div className="w-full aspect-[2/1] border-4 border-[#2c1810] rounded-lg overflow-hidden bg-[#e8d5b5]">
+      <div className="w-full aspect-[2/1] border-4 border-[#2c1810] rounded-lg overflow-hidden bg-[#e8d5b5] relative">
+        <div className="absolute inset-0 z-10 pointer-events-none">
+          <Image
+            src={historicalOverlay.imageUrl}
+            alt="Historical map overlay"
+            fill
+            className="object-cover mix-blend-multiply opacity-15"
+            priority
+          />
+        </div>
+
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{
