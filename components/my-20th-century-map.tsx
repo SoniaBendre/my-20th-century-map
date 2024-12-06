@@ -246,6 +246,11 @@ export default function My20thCenturyMap() {
     setCenter(position.coordinates)
   }, [])
 
+  // Add a scale helper function at component level
+  const getMarkerScale = (zoom: number) => {
+    return 1 / (zoom || 1); // Inverse scale with zoom
+  };
+
   return (
     <div className="w-full h-screen bg-[#f4e9d9] p-4">
       <h1 className="text-3xl font-serif mb-4 text-center text-[#2c1810]">My 20th Century: A Tale of Twin Destinies</h1>
@@ -356,7 +361,7 @@ export default function My20thCenturyMap() {
                 coordinates={location.coordinates as [number, number]}
                 onClick={() => handleLocationClick(location)}
               >
-                <g>
+                <g transform={`scale(${getMarkerScale(zoom)})`}>
                   {/* Larger transparent circle for better hover area */}
                   <circle
                     r={8}
