@@ -16,158 +16,197 @@ import Image from 'next/image'
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json"
 
 const orientExpressRoute: [number, number][] = [
-  [2.3522, 48.8566], // Paris
-  [8.5417, 47.3769], // Zurich
-  [16.3738, 48.2082], // Vienna
-  [19.0402, 47.4979], // Budapest
-  [26.1025, 44.4268], // Bucharest
-  [28.9784, 41.0082]  // Constantinople (Istanbul)
+  [2.3522, 48.8566],    // Paris, France
+  [8.5417, 47.3769],    // Zurich, Switzerland
+  [16.3738, 48.2082],   // Vienna, Austria
+  [16.8719, 47.8388],   // Királyhida/Bruck an der Leitha (Austria-Hungary border)
+  [19.0402, 47.4979],   // Budapest, Hungary
+  [26.1025, 44.4268],   // Bucharest, Romania
+  [28.9784, 41.0082]    // Constantinople (Istanbul), Ottoman Empire
 ]
 
 const locations = [
   {
-    name: "Budapest, 1880",
-    coordinates: [18.6402, 47.4979],
-    info: "Twin sisters Dóra and Lili are born to a poverty-stricken mother on the night Thomas Edison unveils his electric light bulb. Their birth symbolically intertwines with the dawn of electricity and modern technology. Budapest at this time was experiencing rapid modernization, becoming known as the 'Paris of the East'.",
-    year: 1880,
+    name: "Budapest, Hungary",
+    coordinates: [19.0402, 47.4979],      // Budapest city center
+    info: "The heart of the film's narrative, Budapest hosts many key events that mirror the broader themes of modernity, duality, and transformation.",
+    year: "1880-1900",
     imageUrl: "/images/budapest-1880.jpg",
     additionalInfo: {
-      historicalContext: "The 1880s marked Budapest's golden age, with the construction of Andrássy Avenue and the Royal Opera House.",
-      technologicalMilestone: "Edison's incandescent light bulb demonstration in Menlo Park (1879) marked the beginning of widespread electrical illumination."
+      historicalContext: "Budapest was known as the 'Paris of the East', rapidly modernizing at the turn of the century.",
+      keyEvents: [
+        {
+          name: "Twin's Birth (1880)",
+          description: "Twins Lili and Dóra are born to an impoverished mother as Edison unveils his lightbulb in America.",
+          significance: "Links technological and natural miracles, establishing the film's parallel narratives."
+        },
+        {
+          name: "Chimpanzee's Tale (1900)",
+          description: "A caged chimpanzee narrates his capture by a hunter, exploring themes of consciousness and captivity.",
+          significance: "Represents one of several non-human narrative perspectives in the film."
+        },
+        {
+          name: "Feminist Union Lecture (1900)",
+          description: "Lili attends Otto Weininger's comically misogynistic lecture that descends into absurdity.",
+          significance: "Satirizes period philosophical attitudes toward women."
+        },
+        {
+          name: "Telegraph Office (1900)",
+          description: "The final sequence contrasts Edison's telegraph with an anarchist's carrier pigeon.",
+          significance: "Questions the true nature of progress and communication."
+        }
+      ]
     }
   },
   {
-    name: "Budapest Orphanage, 1885",
-    coordinates: [19.302, 47.4979],
-    info: "The twins are separated when a wealthy benefactor takes one girl, while the other remains behind. This separation mirrors the film's central theme of duality - between wealth and poverty, technology and nature, light and darkness. The orphanage scenes were filmed in authentic 19th-century buildings, capturing the period's institutional architecture.",
-    year: 1885,
-    labelY: 20,
-    imageUrl: "/images/orphanage-scene.jpg",
+    name: "Vienna, Austria",
+    coordinates: [16.3738, 48.2082],      // Central Vienna
+    info: "Vienna serves as a crucial location for both technological spectacle and revolutionary politics.",
+    year: "1900",
+    imageUrl: "/images/vienna-animals.jpg",
     additionalInfo: {
-      socialContext: "Child poverty and orphanages were common in 1880s Budapest, reflecting the stark social inequalities of the industrial revolution.",
-      filmTechnique: "Director Enyedi uses high-contrast black and white cinematography to emphasize the twins' contrasting destinies."
+      historicalContext: "Vienna was the cultural and political center of the Austro-Hungarian Empire.",
+      keyEvents: [
+        {
+          name: "Nickelodeon Screening",
+          description: "Z attends a multi-screen presentation of Méliès films, creating a modern gallery-like experience.",
+          significance: "Bridges early cinema with contemporary art installation."
+        },
+        {
+          name: "Laboratory Dog Scene",
+          description: "A dog watches found footage and escapes, incorporating scenes from Now You Tell One (1926).",
+          significance: "Explores themes of animal consciousness and liberation."
+        },
+        {
+          name: "Revolutionary Meeting",
+          description: "Lili participates in anarchist and feminist gatherings, fighting for social change.",
+          significance: "Represents the progressive political movements of the era."
+        }
+      ]
     }
   },
   {
-    name: "Hamburg, 1900",
-    coordinates: [10.0, 53.45],
-    info: "Dóra emerges as a sophisticated courtesan in Hamburg's high society. She manipulates wealthy men using modern luxuries like telegram offices and grand hotels. The port city represents both the prosperity and moral ambiguity of the new century. Dóra's character embodies the materialistic aspects of progress, using technology for personal gain.",
-    year: 1900,
-    labelY: 20,
-    imageUrl: "/images/hamburg-1900.jpg",
-    additionalInfo: {
-      characterStudy: "Dóra represents the seductive and deceptive aspects of modernity, using new technologies to orchestrate her schemes.",
-      historicalSetting: "Hamburg was one of Europe's wealthiest ports, known for luxury hotels and international commerce."
-    }
-  },
-  {
-    name: "Revolutionary Meeting, 1900",
-    coordinates: [16.1738, 48.4082],
-    info: "Lili becomes a passionate anarchist and feminist, fighting for women's suffrage and workers' rights. She distributes revolutionary pamphlets and attends secret meetings. Her character represents the idealistic, utopian dreams of the early 20th century. The film shows her encounters with early feminist movements and revolutionary circles.",
-    year: 1900,
-    imageUrl: "/images/revolutionary-scene.jpg",
-    additionalInfo: {
-      politicalContext: "The turn of the century saw rising feminist and workers' movements across Europe.",
-      symbolism: "Lili's activism represents the progressive, humanist potential of modernity."
-    }
-  },
-  {
-    name: "Paris World Fair, 1900",
-    coordinates: [2.3522, 48.8566],
-    info: "The 1900 Exposition Universelle in Paris celebrated the achievements of the 19th century and the promise of the 20th. The fair featured innovations like moving sidewalks, diesel engines, and talking films. The film recreates the fair's electric lighting displays and the sense of wonder they inspired. The twins unknowingly cross paths here, amidst displays of technological marvels.",
-    year: 1900,
+    name: "Paris, France",
+    coordinates: [2.3522, 48.8566],       // Central Paris
+    info: "Paris represents both scientific advancement and artistic innovation.",
+    year: "1890-1895",
     imageUrl: "/images/paris-1900.jpg",
     additionalInfo: {
-      technologicalDisplay: "The fair showcased escalators, wireless telegraphy, and the Grande Roue de Paris Ferris wheel.",
-      culturalSignificance: "The exposition marked the height of the Belle Époque and faith in progress."
+      historicalContext: "Paris was the cultural capital of Europe and a center of technological innovation.",
+      keyEvents: [
+        {
+          name: "Sorbonne Tesla Demonstration",
+          description: "Z attends Tesla's electrical experiments, shown exclusively to wealthy men.",
+          significance: "Highlights the gender politics of scientific advancement."
+        },
+        {
+          name: "First Cinematograph Screening",
+          description: "The Lumière brothers debut their revolutionary motion picture device.",
+          significance: "Marks the birth of public film exhibition."
+        }
+      ]
     }
   },
   {
-    name: "Edison's Lab, New Jersey, 1880",
-    coordinates: [-74.2332, 40.7831],
-    info: "Thomas Edison's laboratory in Menlo Park where he demonstrated his light bulb invention. The film opens with Edison's breakthrough, symbolically connecting it to the twins' birth. The scene shows Edison surrounded by journalists as he unveils the future of artificial lighting.",
-    year: 1880,
+    name: "Menlo Park, New Jersey, USA",
+    coordinates: [-74.2332, 40.7831],      // Edison's Laboratory
+    info: "The film opens with Edison's lightbulb demonstration, where incandescent bulbs festoon trees like glowworms in an enchanted wood. A glum Thomas Edison launches his invention with great fanfare, including a marching band wearing lit bulbs on their heads.",
+    year: "1880",
     imageUrl: "/images/edison-lab.jpg",
     additionalInfo: {
-      historicalContext: "Edison's lab was known as the 'invention factory', producing numerous innovations that would define the modern era.",
-      symbolism: "The light bulb represents enlightenment and progress, themes that run throughout the film."
+      historicalContext: "Edison's Menlo Park laboratory was known as the 'invention factory'.",
+      keyEvents: [
+        {
+          name: "Light Bulb Demonstration",
+          description: "Edison unveils his electric light bulb with theatrical flair, while stars in the night sky attempt to divert his attention.",
+          significance: "Sets up the film's parallel between technological and natural wonders."
+        }
+      ]
     }
   },
   {
-    name: "Vienna Prater, 1896",
-    coordinates: [16.3975, 48.2167],
-    info: "The famous Viennese amusement park where early film screenings took place. The film shows the wonder of early cinema audiences experiencing moving pictures for the first time. The Prater's Ferris wheel becomes a symbol of mechanical progress.",
-    year: 1896,
-    imageUrl: "/images/vienna-prater.jpg",
+    name: "Hamburg, Germany",
+    coordinates: [10.0, 53.45],            // Hamburg port area
+    info: "Dóra emerges as a sophisticated courtesan in Hamburg's high society, manipulating wealthy men using modern luxuries like telegram offices and grand hotels.",
+    year: "1900",
+    imageUrl: "/images/hamburg-1900.jpg",
     additionalInfo: {
-      culturalSignificance: "The Prater was a center of entertainment and technological displays in the Habsburg Empire.",
-      filmHistory: "The Lumière brothers held some of the first film screenings in Vienna at the Prater."
+      historicalContext: "Hamburg was one of Europe's wealthiest port cities.",
+      keyEvents: [
+        {
+          name: "Dóra's Schemes",
+          description: "The materialistic twin uses modern technology and luxury establishments for personal gain.",
+          significance: "Represents the seductive and deceptive aspects of modernity."
+        }
+      ]
     }
   },
   {
-    name: "Orient Express, Constantinople, 1900",
-    coordinates: [28.9784, 41.0082],
-    info: "The final destination of the Orient Express, where the film explores themes of East meeting West. The train journey represents the connecting thread between European cities and cultures at the turn of the century.",
-    year: 1900,
+    name: "Mandalay, Burma (Myanmar)",
+    coordinates: [96.1951, 21.9588],       // Historical Burma
+    info: "Z's journey takes him to Burma, where Western scientific exploration meets Eastern mysticism.",
+    year: "1900",
+    imageUrl: "/images/burma-scene.jpg",
+    additionalInfo: {
+      historicalContext: "Burma represented the exotic East to Western explorers.",
+      keyEvents: [
+        {
+          name: "Z's Expedition",
+          description: "The scientist's journey to Burma reveals the limits of Western rationality.",
+          significance: "Questions the superiority of Western scientific understanding."
+        }
+      ]
+    }
+  },
+  {
+    name: "New York City, USA",
+    coordinates: [-74.0060, 40.7128],      // Manhattan
+    info: "Site of a captivating Edison Light Show that demonstrates the theatrical nature of scientific progress.",
+    year: "1895",
+    imageUrl: "/images/ny-edison.jpg",
+    additionalInfo: {
+      historicalContext: "New York was becoming the center of American technological innovation.",
+      keyEvents: [
+        {
+          name: "Edison Light Show",
+          description: "A spectacular demonstration of electrical illumination showcases America's technological leadership.",
+          significance: "Illustrates how scientific advancement became public entertainment."
+        }
+      ]
+    }
+  },
+  {
+    name: "Királyhida Border Station",
+    coordinates: [16.8719, 47.8388],       // Austria-Hungary border
+    info: "The Orient Express stops here on New Year's Eve 1900, straddling what would later become a significant east-west divide.",
+    year: "1900",
+    imageUrl: "/images/train-scene.jpg",
+    additionalInfo: {
+      historicalContext: "The border town symbolized the meeting point of Eastern and Western Europe.",
+      keyEvents: [
+        {
+          name: "New Year's Eve Crossing",
+          description: "The twins unknowingly share the train, with Dóra in first class and Lili in third class.",
+          significance: "Represents the social and cultural divisions of the era."
+        }
+      ]
+    }
+  },
+  {
+    name: "Constantinople (Istanbul), Ottoman Empire",
+    coordinates: [28.9784, 41.0082],       // Historical Constantinople
+    info: "The final destination of the Orient Express represents the ultimate meeting point of East and West.",
+    year: "1900",
     imageUrl: "/images/constantinople.jpg",
     additionalInfo: {
-      transportHistory: "The Orient Express was the height of luxury travel, connecting Paris to Constantinople.",
-      culturalContext: "Constantinople represented the meeting point of Europe and Asia, tradition and modernity."
-    }
-  },
-  {
-    name: "Budapest Stock Exchange, 1900",
-    coordinates: [19.0514, 47.4925],
-    info: "Where Dóra manipulates the stock market, representing the film's critique of capitalism and modernity. The grand building symbolizes the power of finance in the new industrial age.",
-    year: 1900,
-    imageUrl: "/images/budapest-exchange.jpg",
-    additionalInfo: {
-      economicHistory: "The Budapest Stock Exchange was a symbol of Hungary's rapid industrialization.",
-      architecturalSignificance: "The neo-Renaissance building represented Hungary's economic ambitions."
-    }
-  },
-  {
-    name: "Fiume Port, 1900",
-    coordinates: [14.4467, 45.3267],
-    info: "The Hungarian port city (now Rijeka, Croatia) where Lili organizes dock workers and encounters anarchist circles. The port represents the intersection of commerce, labor struggles, and revolutionary politics.",
-    year: 1900,
-    imageUrl: "/images/fiume-port.jpg",
-    additionalInfo: {
-      laborHistory: "Fiume was a center of worker organization and anarchist activity.",
-      geopoliticalContext: "As Hungary's only seaport, Fiume was crucial to the country's modernization."
-    }
-  },
-  {
-    name: "Berlin Scientific Society, 1900",
-    coordinates: [13.3833, 52.5167],
-    info: "Where Z, the mysterious scientist and researcher of animal magnetism, gives his lectures. The scene highlights the period's fascination with scientific discoveries and psychological theories. Z's character represents the male scientific gaze and the attempt to understand feminine nature through rationality.",
-    year: 1900,
-    imageUrl: "/images/berlin-science.jpg",
-    additionalInfo: {
-      scientificContext: "Berlin was a major center of scientific research and psychological studies in 1900.",
-      filmSymbolism: "Z's scientific lectures contrast with the twins' intuitive understanding of the world."
-    }
-  },
-  {
-    name: "Trieste Labor Rally, 1900",
-    coordinates: [13.7768, 45.6494],
-    info: "Where Lili participates in a major workers' demonstration. The port city was a crucial site for the labor movement, and the film shows Lili's involvement in organizing workers and distributing anarchist literature. The scene captures the period's revolutionary fervor.",
-    year: 1900,
-    imageUrl: "/images/trieste-rally.jpg",
-    additionalInfo: {
-      politicalHistory: "Trieste was a hotbed of socialist and anarchist activity in the Austro-Hungarian Empire.",
-      socialMovements: "The scene depicts the growing strength of organized labor and women's participation in political movements."
-    }
-  },
-  {
-    name: "Munich Laboratory, 1896",
-    coordinates: [11.5820, 48.1351],
-    info: "The laboratory where early experiments with X-rays are conducted, which Dóra visits. This scene connects to the film's exploration of visibility and invisibility, science and mystery. The X-ray discovery represents another form of modern vision and revelation.",
-    year: 1896,
-    imageUrl: "/images/munich-lab.jpg",
-    additionalInfo: {
-      scientificMilestone: "Wilhelm Röntgen discovered X-rays in 1895, revolutionizing both medicine and physics.",
-      cinematicTheme: "The X-ray scene parallels the film's interest in what lies beneath visible surfaces."
+      historicalContext: "Constantinople was the gateway between Europe and Asia.",
+      keyEvents: [
+        {
+          name: "Orient Express Terminus",
+          description: "The journey's end point symbolizes the meeting of European modernity with Eastern traditions.",
+          significance: "Embodies the film's themes of cultural intersection and transformation."
+        }
+      ]
     }
   }
 ]
@@ -177,11 +216,21 @@ const historicalOverlay = {
   opacity: 0.15
 }
 
+const mapProjection = {
+  center: [20, 30] as [number, number], // Centered more on Europe/Asia minor
+  scale: 220, // Increased scale to zoom in more
+  rotation: [0, 0, 0] as [number, number, number]
+}
+
 export default function My20thCenturyMap() {
   const [selectedLocation, setSelectedLocation] = useState<(typeof locations)[0] | null>(null)
 
   const handleLocationClick = (location: typeof locations[0]) => {
     setSelectedLocation(location);
+  };
+
+  const isLabelVisible = () => {
+    return true;
   };
 
   return (
@@ -200,21 +249,13 @@ export default function My20thCenturyMap() {
 
         <ComposableMap
           projection="geoMercator"
-          projectionConfig={{
-            center: [15, 47],
-            scale: 1500
-          }}
+          projectionConfig={mapProjection}
         >
           <Geographies geography={geoUrl}>
             {({ geographies, projection }) =>
               geographies.map((geo) => {
                 const centroid = geoCentroid(geo);
                 const projectedCentroid = projection(centroid);
-                const isEuropean =
-                  centroid[0] >= -25 &&
-                  centroid[0] <= 40 &&
-                  centroid[1] >= 35 &&
-                  centroid[1] <= 70;
 
                 return (
                   <React.Fragment key={geo.rsmKey}>
@@ -236,14 +277,14 @@ export default function My20thCenturyMap() {
                         },
                       }}
                     />
-                    {isEuropean && projectedCentroid && (
+                    {isLabelVisible() && projectedCentroid && (
                       <text
                         x={projectedCentroid[0]}
                         y={projectedCentroid[1]}
                         textAnchor="middle"
                         style={{
                           fontFamily: 'serif',
-                          fontSize: '6px',
+                          fontSize: '4px',
                           fill: '#2c1810',
                           pointerEvents: 'none',
                         }}
@@ -308,7 +349,7 @@ export default function My20thCenturyMap() {
         <DialogContent className="bg-[#f4e9d9] border-[#2c1810] max-w-2xl">
           <DialogHeader>
             <DialogTitle className="font-serif text-2xl text-[#2c1810]">
-              {selectedLocation?.name.split(',')[0]} ({selectedLocation?.year})
+              {selectedLocation?.name} ({selectedLocation?.year})
             </DialogTitle>
             <div className="relative w-full h-48 mb-4">
               {selectedLocation?.imageUrl && (
@@ -324,14 +365,27 @@ export default function My20thCenturyMap() {
             <DialogDescription className="text-[#2c1810] space-y-4">
               <p className="text-lg">{selectedLocation?.info}</p>
               <div className="mt-4 space-y-6">
-                {selectedLocation?.additionalInfo && Object.entries(selectedLocation.additionalInfo).map(([key, value]) => (
-                  <div key={key} className="mb-2">
-                    <h4 className="font-serif font-bold capitalize text-lg">
-                      {key.replace(/([A-Z])/g, ' $1').trim()}:
-                    </h4>
-                    <p className="text-sm mt-1">{value}</p>
-                  </div>
-                ))}
+                {selectedLocation?.additionalInfo.keyEvents ? (
+                  <>
+                    <h3 className="font-serif font-bold text-xl">Key Events:</h3>
+                    {selectedLocation.additionalInfo.keyEvents.map((event, index) => (
+                      <div key={index} className="border-l-2 border-[#2c1810] pl-4 mb-4">
+                        <h4 className="font-serif font-bold text-lg">{event.name}</h4>
+                        <p className="text-sm mb-2">{event.description}</p>
+                        <p className="text-sm italic">{event.significance}</p>
+                      </div>
+                    ))}
+                  </>
+                ) : (
+                  Object.entries(selectedLocation?.additionalInfo || {}).map(([key, value]) => (
+                    <div key={key} className="mb-2">
+                      <h4 className="font-serif font-bold capitalize text-lg">
+                        {key.replace(/([A-Z])/g, ' $1').trim()}:
+                      </h4>
+                      <p className="text-sm mt-1">{value}</p>
+                    </div>
+                  ))
+                )}
               </div>
             </DialogDescription>
           </DialogHeader>
