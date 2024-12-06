@@ -216,13 +216,11 @@ const INITIAL_CENTER: [number, number] = [20, 30];
 export default function My20thCenturyMap() {
   const [selectedLocation, setSelectedLocation] = useState<(typeof locations)[0] | null>(null)
   const [zoom, setZoom] = useState(INITIAL_ZOOM)
-  const [position, setPosition] = useState<[number, number]>(INITIAL_CENTER)
   const [center, setCenter] = useState<[number, number]>(INITIAL_CENTER)
 
   // Add reset handler
   const handleReset = () => {
     setZoom(INITIAL_ZOOM);
-    setPosition(INITIAL_CENTER);
     setCenter(INITIAL_CENTER);
   };
 
@@ -245,7 +243,6 @@ export default function My20thCenturyMap() {
 
   // Improved move handler
   const handleMoveEnd = useCallback((position: { coordinates: [number, number]; zoom: number }) => {
-    setPosition(position.coordinates)
     setCenter(position.coordinates)
   }, [])
 
@@ -261,7 +258,7 @@ export default function My20thCenturyMap() {
 
         <div className="mb-8 prose prose-lg mx-auto text-[#2c1810]">
           <p className="text-center max-w-3xl mx-auto">
-            Explore the magical world of Ildikó Enyedi's 1989 masterpiece "My 20th Century" through this interactive map. 
+            Explore the magical world of Ildikó Enyedi&apos;s 1989 masterpiece &ldquo;My 20th Century&rdquo; through this interactive map. 
             This enchanting film follows twin sisters separated at birth in Budapest, as they navigate the dawn of the 20th century 
             on divergent paths across Europe and beyond.
           </p>
@@ -497,14 +494,18 @@ export default function My20thCenturyMap() {
                     ))}
                   </>
                 ) : (
-                  Object.entries(selectedLocation?.additionalInfo || {}).map(([key, value]) => (
-                    <div key={key} className="mb-2">
-                      <h4 className="font-serif font-bold capitalize text-lg">
-                        {key.replace(/([A-Z])/g, ' $1').trim()}:
-                      </h4>
-                      <p className="text-sm mt-1">{value}</p>
-                    </div>
-                  ))
+                  Object.entries(selectedLocation?.additionalInfo || {})
+                    .filter(([key]) => key !== 'keyEvents')
+                    .map(([key, value]) => (
+                      <div key={key} className="mb-2">
+                        <h4 className="font-serif font-bold capitalize text-lg">
+                          {key.replace(/([A-Z])/g, ' $1').trim()}:
+                        </h4>
+                        <p className="text-sm mt-1">
+                          {typeof value === 'string' ? value : JSON.stringify(value)}
+                        </p>
+                      </div>
+                    ))
                 )}
               </div>
             </DialogDescription>
