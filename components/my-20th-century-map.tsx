@@ -6,12 +6,21 @@ import {
   Geographies,
   Geography,
   Marker,
+  Line
 } from "react-simple-maps"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { geoCentroid } from "d3-geo"
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json"
+
+const orientExpressRoute: [number, number][] = [
+  [2.3522, 48.8566], // Paris
+  [8.5417, 47.3769], // Zurich
+  [16.3738, 48.2082], // Vienna
+  [19.0402, 47.4979], // Budapest
+  [26.1025, 44.4268]  // Bucharest
+]
 
 const locations = [
   {
@@ -142,6 +151,13 @@ export default function My20thCenturyMap() {
               })
             }
           </Geographies>
+
+          <Line
+            coordinates={orientExpressRoute}
+            stroke="#2c1810"
+            strokeWidth={2}
+            strokeDasharray="5,5"
+          />
 
           {locations.map((location) => (
             <Marker
