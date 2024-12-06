@@ -1,12 +1,13 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import {
   ComposableMap,
   Geographies,
   Geography,
   Marker,
-  Line
+  Line,
+  ZoomableGroup
 } from "react-simple-maps"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -224,6 +225,17 @@ const mapProjection = {
 
 export default function My20thCenturyMap() {
   const [selectedLocation, setSelectedLocation] = useState<(typeof locations)[0] | null>(null)
+  const [zoom, setZoom] = useState(220) // Initial scale value
+  const [position, setPosition] = useState<[number, number]>([20, 30]) // Initial center position
+
+  // Add zoom handlers
+  const handleZoomIn = () => {
+    setZoom(prev => Math.min(prev * 1.5, 1000)) // Max zoom limit
+  }
+
+  const handleZoomOut = () => {
+    setZoom(prev => Math.max(prev / 1.5, 100)) // Min zoom limit
+  }
 
   const handleLocationClick = (location: typeof locations[0]) => {
     setSelectedLocation(location);
@@ -233,9 +245,33 @@ export default function My20thCenturyMap() {
     return true;
   };
 
+  // Add handlers for dragging
+  const handleMoveEnd = useCallback((position: { coordinates: [number, number]; zoom: number }) => {
+    setPosition(position.coordinates)
+  }, [])
+
   return (
     <div className="w-full h-screen bg-[#f4e9d9] p-4">
       <h1 className="text-3xl font-serif mb-4 text-center text-[#2c1810]">My 20th Century: A Tale of Twin Destinies</h1>
+      
+      {/* Add zoom controls */}
+      <div className="absolute top-20 right-8 z-20 flex flex-col gap-2">
+        <Button 
+          onClick={handleZoomIn}
+          className="bg-[#2c1810] hover:bg-[#4c2820] w-10 h-10 rounded-full"
+          aria-label="Zoom in"
+        >
+          +
+        </Button>
+        <Button 
+          onClick={handleZoomOut}
+          className="bg-[#2c1810] hover:bg-[#4c2820] w-10 h-10 rounded-full"
+          aria-label="Zoom out"
+        >
+          -
+        </Button>
+      </div>
+
       <div className="w-full aspect-[2/1] border-4 border-[#2c1810] rounded-lg overflow-hidden bg-[#e8d5b5] relative">
         <div className="absolute inset-0 z-10 pointer-events-none">
           <Image
@@ -249,99 +285,109 @@ export default function My20thCenturyMap() {
 
         <ComposableMap
           projection="geoMercator"
-          projectionConfig={mapProjection}
+          projectionConfig={{
+            scale: zoom
+          }}
         >
-          <Geographies geography={geoUrl}>
-            {({ geographies, projection }) =>
-              geographies.map((geo) => {
-                const centroid = geoCentroid(geo);
-                const projectedCentroid = projection(centroid);
+          <ZoomableGroup
+            center={position}
+            onMoveEnd={handleMoveEnd}
+            zoom={1}
+            maxZoom={1}
+            minZoom={1}
+          >
+            <Geographies geography={geoUrl}>
+              {({ geographies, projection }) =>
+                geographies.map((geo) => {
+                  const centroid = geoCentroid(geo);
+                  const projectedCentroid = projection(centroid);
 
-                return (
-                  <React.Fragment key={geo.rsmKey}>
-                    <Geography
-                      geography={geo}
-                      fill="#d5c3a1"
-                      stroke="#2c1810"
-                      strokeWidth={0.5}
-                      style={{
-                        default: {
-                          outline: "none",
-                        },
-                        hover: {
-                          fill: "#d5c3a1",
-                          outline: "none",
-                        },
-                        pressed: {
-                          outline: "none",
-                        },
-                      }}
-                    />
-                    {isLabelVisible() && projectedCentroid && (
-                      <text
-                        x={projectedCentroid[0]}
-                        y={projectedCentroid[1]}
-                        textAnchor="middle"
+                  return (
+                    <React.Fragment key={geo.rsmKey}>
+                      <Geography
+                        geography={geo}
+                        fill="#d5c3a1"
+                        stroke="#2c1810"
+                        strokeWidth={0.5}
                         style={{
-                          fontFamily: 'serif',
-                          fontSize: '4px',
-                          fill: '#2c1810',
-                          pointerEvents: 'none',
+                          default: {
+                            outline: "none",
+                          },
+                          hover: {
+                            fill: "#d5c3a1",
+                            outline: "none",
+                          },
+                          pressed: {
+                            outline: "none",
+                          },
                         }}
-                      >
-                        {geo.properties.name}
-                      </text>
-                    )}
-                  </React.Fragment>
-                );
-              })
-            }
-          </Geographies>
+                      />
+                      {isLabelVisible() && projectedCentroid && (
+                        <text
+                          x={projectedCentroid[0]}
+                          y={projectedCentroid[1]}
+                          textAnchor="middle"
+                          style={{
+                            fontFamily: 'serif',
+                            fontSize: '4px',
+                            fill: '#2c1810',
+                            pointerEvents: 'none',
+                          }}
+                        >
+                          {geo.properties.name}
+                        </text>
+                      )}
+                    </React.Fragment>
+                  );
+                })
+              }
+            </Geographies>
 
-          <Line
-            coordinates={orientExpressRoute}
-            stroke="#2c1810"
-            strokeWidth={2}
-            strokeDasharray="5,5"
-          />
+            <Line
+              coordinates={orientExpressRoute}
+              stroke="#2c1810"
+              strokeWidth={2}
+              strokeDasharray="5,5"
+            />
 
-          {locations.map((location) => (
-            <Marker
-              key={location.name}
-              coordinates={location.coordinates as [number, number]}
-              onClick={() => handleLocationClick(location)}
-            >
-              <g>
-                {/* Larger transparent circle for better hover area */}
-                <circle
-                  r={8}
-                  fill="transparent"
-                  style={{ cursor: 'pointer' }}
-                />
-                {/* Animated dot */}
-                <circle
-                  r={5}
-                  fill="#2c1810"
-                  stroke="#f4e9d9"
-                  strokeWidth={2}
-                  style={{
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease-in-out',
-                  }}
-                  onMouseEnter={(e) => {
-                    const target = e.target as SVGCircleElement;
-                    target.style.r = '7';
-                    target.style.fill = '#4c2820';
-                  }}
-                  onMouseLeave={(e) => {
-                    const target = e.target as SVGCircleElement;
-                    target.style.r = '5';
-                    target.style.fill = '#2c1810';
-                  }}
-                />
-              </g>
-            </Marker>
-          ))}
+            {locations.map((location) => (
+              <Marker
+                key={location.name}
+                coordinates={location.coordinates as [number, number]}
+                onClick={() => handleLocationClick(location)}
+              >
+                <g>
+                  {/* Larger transparent circle for better hover area */}
+                  <circle
+                    r={8}
+                    fill="transparent"
+                    style={{ cursor: 'pointer' }}
+                  />
+                  {/* Animated dot */}
+                  <circle
+                    r={5}
+                    fill="#2c1810"
+                    stroke="#f4e9d9"
+                    strokeWidth={2}
+                    style={{
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease-in-out',
+                    }}
+                    onMouseEnter={(e) => {
+                      const target = e.target as SVGCircleElement;
+                      target.style.r = '7';
+                      target.style.fill = '#4c2820';
+                    }}
+                    onMouseLeave={(e) => {
+                      const target = e.target as SVGCircleElement;
+                      target.style.r = '5';
+                      target.style.fill = '#2c1810';
+                    }}
+                  />
+                </g>
+              </Marker>
+            ))}
+          </ZoomableGroup>
         </ComposableMap>
       </div>
 
