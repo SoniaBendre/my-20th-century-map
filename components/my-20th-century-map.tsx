@@ -61,25 +61,21 @@ const locations = [
   {
     name: "Vienna, Austria",
     coordinates: [16.3738, 48.2082],      // Central Vienna
-    info: "Vienna serves as a crucial location for both technological spectacle and revolutionary politics.",
+    info: "Vienna marks where Lili boards the Orient Express. At the next stop after Vienna (location uncertain), the film explores themes of animal consciousness through the laboratory dog sequence.",
     imageUrl: "/images/vienna-animals.jpg",
     additionalInfo: {
-      historicalContext: "Vienna was the cultural and political center of the Austro-Hungarian Empire.",
+      historicalContext: "Vienna was a major stop on the Orient Express route and a center of intellectual and cultural life in the Austro-Hungarian Empire.",
       keyEvents: [
         {
-          name: "Nickelodeon Screening",
-          description: "Z attends a multi-screen presentation of Méliès films, creating a modern gallery-like experience.",
-          significance: "Bridges early cinema with contemporary art installation."
+          name: "Lili's Departure",
+          description: "Lili boards the Orient Express in Vienna, beginning the journey that will unknowingly reunite her with her twin.",
+          significance: "Marks the beginning of the film's climactic train journey."
         },
+
         {
-          name: "Laboratory Dog Scene",
-          description: "A dog watches found footage and escapes, incorporating scenes from Now You Tell One (1926).",
-          significance: "Explores themes of animal consciousness and liberation."
-        },
-        {
-          name: "Revolutionary Meeting",
-          description: "Lili participates in anarchist and feminist gatherings, fighting for social change.",
-          significance: "Represents the progressive political movements of the era."
+          name: "Laboratory Dog Scene (Next Stop)",
+          description: "After Vienna, a dog watches found footage including scenes from Now You Tell One (1926) and escapes.",
+          significance: "Explores themes of animal consciousness and liberation, occurring at the same uncertain location as the nickelodeon screening."
         }
       ]
     }
@@ -124,15 +120,15 @@ const locations = [
   {
     name: "Hamburg, Germany",
     coordinates: [10.0, 53.45],            // Hamburg port area
-    info: "Dóra emerges as a sophisticated courtesan in Hamburg's high society, manipulating wealthy men using modern luxuries like telegram offices and grand hotels.",
+    info: "On a boat in Hamburg's harbor, Z's fellow travelers express skepticism about Hungary's existence, suggesting it's a land 'invented by Shakespeare'. The scene highlights Western Europe's perception of the East.",
     imageUrl: "/images/hamburg-1900.jpg",
     additionalInfo: {
-      historicalContext: "Hamburg was one of Europe's wealthiest port cities.",
+      historicalContext: "Hamburg was one of Europe's major ports, representing Western Europe's perspective on the East.",
       keyEvents: [
         {
-          name: "Dóra's Schemes",
-          description: "The materialistic twin uses modern technology and luxury establishments for personal gain.",
-          significance: "Represents the seductive and deceptive aspects of modernity."
+          name: "Z's Journey",
+          description: "During his boat journey, Z encounters Western Europeans who doubt the reality of Hungary, revealing cultural prejudices of the era.",
+          significance: "Illustrates the cultural and intellectual divide between Western and Eastern Europe."
         }
       ]
     }
@@ -156,15 +152,20 @@ const locations = [
   {
     name: "New York City, USA",
     coordinates: [-74.0060, 40.7128],      // Manhattan
-    info: "Site of a captivating Edison Light Show that demonstrates the theatrical nature of scientific progress.",
+    info: "Z visits New York to witness Edison's captivating Light Show, demonstrating the theatrical nature of scientific progress and America's technological leadership.",
     imageUrl: "/images/ny-edison.jpg",
     additionalInfo: {
       historicalContext: "New York was becoming the center of American technological innovation.",
       keyEvents: [
         {
           name: "Edison Light Show",
-          description: "A spectacular demonstration of electrical illumination showcases America's technological leadership.",
-          significance: "Illustrates how scientific advancement became public entertainment."
+          description: "Z attends a spectacular demonstration of electrical illumination, showcasing America's technological advancement.",
+          significance: "Illustrates how scientific progress became public spectacle and entertainment."
+        },
+        {
+          name: "Z's Observations",
+          description: "Through Z's perspective, we see how Edison's demonstrations merged science with theatrical presentation.",
+          significance: "Connects to the film's themes about the spectacle of modernity."
         }
       ]
     }
@@ -457,6 +458,44 @@ export default function My20thCenturyMap() {
           </Button>
         </DialogContent>
       </Dialog>
+
+      <div className="mt-6 p-4 border-2 border-[#2c1810] rounded-lg bg-[#e8d5b5] max-w-4xl mx-auto">
+        <h2 className="text-xl font-serif text-center text-[#2c1810] mb-4">Locations Mapped</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {locations.map((location) => (
+            <button
+              key={location.name}
+              onClick={() => handleLocationClick(location)}
+              className="text-left p-2 hover:bg-[#d5c3a1] rounded transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-[#2c1810]" />
+                <span className="font-serif text-sm text-[#2c1810]">
+                  {location.name}
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
+        <div className="mt-4 flex items-center justify-center gap-4 text-sm text-[#2c1810]">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-[2px] bg-[#2c1810] dash-line" />
+            <span className="font-serif">Orient Express Route</span>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .dash-line {
+          background: repeating-linear-gradient(
+            90deg,
+            #2c1810,
+            #2c1810 5px,
+            transparent 5px,
+            transparent 10px
+          );
+        }
+      `}</style>
     </div>
   )
 }
